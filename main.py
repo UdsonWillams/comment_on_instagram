@@ -1,22 +1,22 @@
 from selenium import webdriver
 from time import sleep
 import pyautogui
+import gui
+import db
 
-lista_nomes = []
 
-print("BEM VINDO AO GERADOR DE COMENTARIOS AUTOMATICOS")
-print("VOCÊ PRECISA COLOCAR OS PERFILS NA LISTA DE NOMES\n")
+perfis = []
+dados = []
+dados = gui.tela_inicial()
 
-url = str(input("DIGITE A URL: "))
+url = dados[0]
+nome_usuario = dados[1]
+senha_usuario = dados[2]
 
-nome_usuario = str(input("Digite seru usuario: "))
-senha_usuario = str(input("Digite sua senha: "))
 
 options = webdriver.ChromeOptions()
 options.add_argument('lang=pt-br')
-driver = webdriver.Chrome(executable_path=r'E:\Programação\Python\Bot de Mensagens para '
-                                          r'grupo\chromedriver.exe')
-
+driver = webdriver.Chrome()
 driver.get(url)
 driver.fullscreen_window()
 login_insta = driver.find_element_by_class_name('tdiEy')
@@ -36,7 +36,10 @@ driver.fullscreen_window()
 comentarios = driver.find_element_by_class_name('Ypffh')
 comentarios.click()
 sleep(2)
-for i in lista_nomes:
+
+""" REFAZER
+for i in perfis:
+    db.cursor.execute("SELECT perfisInsta FROM perfis")
     pyautogui.write(i)
     sleep(1)
     pyautogui.press('enter')
@@ -47,6 +50,6 @@ for i in lista_nomes:
     sleep(5)
     comentarios = driver.find_element_by_class_name('Ypffh')
     comentarios.click()
-    sleep(5)
+    sleep(60)
+"""
 driver.close()
-print("CRIATED BY GENERALX")
