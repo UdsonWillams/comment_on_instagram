@@ -4,18 +4,17 @@ import db
 
 def tela_inicial():
 
-    lista = list()
+    dados = list()
     sg.theme("Reddit")
     layout = [
         [sg.Text("COMENTARIOS PARA INSTAGRAM")],
         [sg.Text("COLOQUE OS PERFIS ABAIXO E CLIQUE PARA SALVAR [NÃO ESQUEÇA DO @]")],
         [sg.InputText(key="perfisDoInsta",do_not_clear=False)], [sg.Button("registrar")],
-        [sg.Text("LINK DA FOTO DO INSTA")], [sg.InputText(key="lindkDaFoto")],
+        [sg.Text("LINK DA FOTO DO INSTA")], [sg.InputText(key="link_da_foto")],
         [sg.Text("SEU USUARIO")], [sg.InputText(key="usuario")],
         [sg.Text("SUA SENHA")], [sg.InputText(key="senha",  password_char="*")],
         [sg.Button("INICIAR")],
         [sg.Text("PARA EVITAR QUE O INSTA TRAVE O ENVIO O PADRÃO TEM 1 MINUTO DE ESPERA")],
-        [sg.Text("CRIATED BY GENERALX")]
         ]
 
     janela = sg.Window("Comente Instagram", layout)
@@ -35,9 +34,9 @@ def tela_inicial():
                     sg.popup("POR FAVOR INSIRA O @ E UM PERFIL COM MAIS DE 4 LETRAS")
 
         if evento == "INICIAR":
-            lista.append(valores["lindkDaFoto"])
-            lista.append(valores["usuario"])
-            lista.append(valores["senha"])
+            dados.append(valores["link_da_foto"])
+            dados.append(valores["usuario"])
+            dados.append(valores["senha"])
             break
     janela.close()
-    return lista
+    return dados

@@ -7,7 +7,7 @@ cursor = banco.cursor()
 # Cria o Banco de dados
 try:
     cursor.execute(
-        "CREATE TABLE perfis (perfisInsta text)")
+        "CREATE TABLE perfis (perfil text)")
     banco.commit()
 except sqlite3.OperationalError:
-    print(' ')
+    pass

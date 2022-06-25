@@ -1,8 +1,10 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from time import sleep
 import pyautogui
 import gui
 import db
+from variaveis import *
 
 perfis = []
 dados = []
@@ -14,8 +16,8 @@ senha_usuario = dados[2]
 
 # selecionando perfis do banco para uma lista
 perfis = []
-perfilVarrido = []
-db.cursor.execute("SELECT perfisInsta FROM perfis")
+perfil_varrido = []
+db.cursor.execute("SELECT perfil FROM perfis")
 for perfil in db.cursor.fetchall():
     perfis.append(str(perfil))
 # varrendo lista retirando caracteres indesejados
@@ -23,36 +25,41 @@ for p in perfis:
     item = p
     for i in ["(", "'", ",", ")"]:
         item = item.replace(i, "")
-    perfilVarrido.append(item)
+    perfil_varrido.append(item)
 
-options = webdriver.ChromeOptions()
+options = webdriver.FirefoxOptions()
 options.add_argument('lang=pt-br')
-driver = webdriver.Chrome()
+try:
+    driver = webdriver.Firefox(executable_path=GECKO_PATH)
+    driver.implicitly_wait(3)
 
-driver.get(url)
-driver.fullscreen_window()
-login_insta = driver.find_element_by_class_name('tdiEy').click()
-sleep(1)
-usuario = driver.find_element_by_name('username').send_keys(nome_usuario)
-sleep(2)
+    driver.get(url)
 
-senha = driver.find_element_by_name('password').send_keys(senha_usuario)
-sleep(1)
+    # login_insta = driver.find_element(By.CLASS_NAME, "sqdOP  L3NKy   y3zKF  ").click()
 
-entrar = driver.find_element_by_class_name('sqdOP.L3NKy.y3zKF').click()
-sleep(5)
-driver.get(url)
-sleep(2)
-driver.fullscreen_window()
-sleep(1)
-
-for i in perfilVarrido:
-
-    comentarios = driver.find_element_by_class_name("X7cDz").click()
-    sleep(1)
-    pyautogui.write(i, interval=0.1)
+    usuario = driver.find_element(By.NAME, "username").send_keys(nome_usuario)
+    senha = driver.find_element(By.NAME, "password").send_keys(senha_usuario)
+    entrar = driver.find_element(By.CLASS_NAME, "sqdOP.L3NKy.y3zKF").click()
     sleep(2)
-    publicar = driver.find_element_by_xpath("//*[@type='submit']").click()
-    sleep(60)
+    driver.get(url)
+    sleep(5)
 
-driver.close()
+    len_perfis = 0
+    for perfil in perfil_varrido:
+        len_perfis += 1
+        comentarios = driver.find_element(By.CLASS_NAME, "_aao9").click()
+        sleep(1)
+        pyautogui.write(perfil, interval=0.2)
+        sleep(0.3)
+        pyautogui.press('enter')
+        sleep(0.5)
+        pyautogui.press('enter')
+        sleep(0.5)
+        pyautogui.press('enter')
+        sleep(0.5)
+        if not len_perfis == len(perfil_varrido):
+            sleep(60)
+except Exception:
+    driver.close()
+else:
+    driver.close()
