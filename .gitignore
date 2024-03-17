@@ -3,4 +3,4 @@ __pycache__
 venv
 geckodriver
 geckodriver.log
-perfis.db
+profile.db
